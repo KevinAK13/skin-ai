@@ -11,10 +11,11 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 try:
-    from backend.model import SkinCancerModel  # Para Railway
+    from backend.model import SkinCancerModel  #  Railway
 except ModuleNotFoundError:
-    from model import SkinCancerModel  # Para local
+    from model import SkinCancerModel  #  local
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 
 # ============================
@@ -40,6 +41,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the current directory path / Hole den Pfad des aktuellen Verzeichnisses
 MODEL_PATH = os.path.join(BASE_DIR, "../models/best_model.pth")  # Absolute path to the model / Absoluter Pfad zum Modell
