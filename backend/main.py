@@ -16,6 +16,8 @@ except ModuleNotFoundError:
     from model import SkinCancerModel  #  local
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
+
 
 
 # ============================
@@ -42,6 +44,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+app.add_middleware(HTTPSRedirectMiddleware)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the current directory path / Hole den Pfad des aktuellen Verzeichnisses
 MODEL_PATH = os.path.join(BASE_DIR, "../models/best_model.pth")  # Absolute path to the model / Absoluter Pfad zum Modell
@@ -90,7 +93,7 @@ last_prediction = {}
 #  INFERENCE ENDPOINT / INFERENZ-ENDPOINT
 # ============================
 
-@app.post("/predict/", response_model=PredictionResponse, summary="Perform skin cancer diagnosis / Hautkrebsdiagnose durchführen")
+@app.post("/predict", response_model=PredictionResponse, summary="Perform skin cancer diagnosis / Hautkrebsdiagnose durchführen")
 async def predict(
     file: UploadFile = File(..., description="Image of the skin lesion (JPG/PNG format) / Bild der Hautläsion (JPG/PNG-Format)"),
     age: int = Form(..., description="Patient's age (years) / Alter des Patienten (Jahre)"),
