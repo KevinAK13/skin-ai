@@ -9,6 +9,7 @@ import torchvision.transforms as transforms
 from backend.model import SkinCancerModel
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 
 # ============================
@@ -33,7 +34,9 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    
 )
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the current directory path / Hole den Pfad des aktuellen Verzeichnisses
 MODEL_PATH = os.path.join(BASE_DIR, "../models/best_model.pth")  # Absolute path to the model / Absoluter Pfad zum Modell
