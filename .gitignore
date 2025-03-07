@@ -1,0 +1,42 @@
+# Ignorar entornos virtuales
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de configuración de IDEs y editores
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Dependencias
+*.egg-info/
+*.dist-info/
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Datos y modelos pesados
+data/
+models/
+*.h5
+*.pkl
+*.pth
+*.onnx
+
+# Logs y caché
+logs/
+*.log
+cache/
+*.sqlite
+
+# Docker
+docker-compose.override.yml
+.dockerignore
