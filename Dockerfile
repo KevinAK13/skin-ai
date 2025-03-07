@@ -1,20 +1,19 @@
-# Use a lightweight and optimized base image
+# Usa una imagen base ligera
 FROM python:3.10-slim
 
-# Set the working directory inside the container
+# Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copy necessary files
-COPY requirements.txt ./
-COPY backend/ ./backend/
-COPY models/ ./models/
+# Copia los archivos necesarios
+COPY requirements.txt .
+COPY backend /app/backend
+COPY models /app/models
 
-
-# Install Python dependencies
+# Instala las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the API port (8000)
+# Expone el puerto de FastAPI
 EXPOSE 8000
 
-# Command to start FastAPI with Uvicorn
-CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Ejecuta Uvicorn asegurando la ruta correcta
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

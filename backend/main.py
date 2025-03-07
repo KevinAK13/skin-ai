@@ -6,8 +6,14 @@ from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from pydantic import BaseModel
 from PIL import Image, UnidentifiedImageError
 import torchvision.transforms as transforms
-from model import SkinCancerModel
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+try:
+    from backend.model import SkinCancerModel  # Para Railway
+except ModuleNotFoundError:
+    from model import SkinCancerModel  # Para local
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -194,6 +200,7 @@ async def global_exception_handler(request, exc):
 # ============================
 #  START SERVER / SERVER STARTEN
 # ============================
+PORT = int(os.getenv("PORT", 8000))  # Railway asigna puertos dinámicos
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
